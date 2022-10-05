@@ -9,7 +9,8 @@ import { defineProps, PropType } from 'vue'
 import { IRegisterPlugin } from './type'
 const props = defineProps({
   registerPlugins: {
-    type: [] as PropType<IRegisterPlugin[]>
+    type: [] as PropType<IRegisterPlugin[]>,
+    default: []
   }
 })
 </script>

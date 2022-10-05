@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-01 18:44:05
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-02 23:43:47
+ * @LastEditTime: 2022-10-05 20:14:55
  * @FilePath: \MyRoom-LowCode\src\views\main\lowcode\index.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <LowcodeTop></LowcodeTop>
     <LowcodeCenter></LowcodeCenter>
     <LowcodeExtra></LowcodeExtra>
-    <Ui-button
+    <!-- <Ui-button
       @click="
         () => {
           Message.info({
@@ -59,12 +59,7 @@
         }
       "
       >失败(直接调用)</Ui-button
-    >
-    <!-- <ming-message
-      type="info"
-      message="啊哈哈哈哈"
-      :duration="2000"
-    ></ming-message> -->
+    > -->
   </div>
 </template>
 
@@ -73,7 +68,6 @@ import LowcodeTop from '@/components/lowcode/lowcode-top'
 import LowcodeCenter from '@/components/lowcode/lowcode-center'
 import LowcodeExtra from '@/components/lowcode/lowcode-extra'
 import Message from '@/base-ui/common/ming-message'
-import MingMessage from '@/base-ui/common/ming-message/src/message.vue'
 </script>
 
 <style lang="scss" scoped></style>

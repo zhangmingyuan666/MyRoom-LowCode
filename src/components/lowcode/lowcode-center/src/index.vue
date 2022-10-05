@@ -1,5 +1,11 @@
+<!--
+ * @Date: 2022-10-01 18:54:06
+ * @LastEditors: zhang-mingyuan123 2369558390@qq.com
+ * @LastEditTime: 2022-10-05 20:11:54
+ * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\index.vue
+-->
 <template>
-  <div>
+  <div class="center-container">
     <LeftHandler></LeftHandler>
     <CenterCanvas></CenterCanvas>
     <RightController></RightController>
@@ -12,4 +18,10 @@ import CenterCanvas from './center-canvas/index.vue'
 import RightController from './right-controller/index.vue'
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+.center-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+</style>
