@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-09-30 22:18:04
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-03 01:05:11
+ * @LastEditTime: 2022-10-06 22:45:28
  * @FilePath: \MyRoom-LowCode\.eslintrc.js
  */
 module.exports = {
@@ -24,7 +24,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/ban-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off'
   },
   overrides: [
     {

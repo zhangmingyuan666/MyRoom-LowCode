@@ -1,25 +1,37 @@
-import { SET_DRAGLIST } from '@/store/drag/type-actions'
-import { useStore } from 'vuex'
-
 /*
  * @Date: 2022-10-05 18:32:57
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-05 22:44:43
+ * @LastEditTime: 2022-10-07 00:56:42
  * @FilePath: \MyRoom-LowCode\src\hooks\ming-drag-hooks\src\drop-hook.ts
+ * @description: none
  */
+import { OUTPUT_SET_DROP_ACTION, SET_DRAGLIST } from '@/store/drag/type-actions'
+import { useStore } from '@/store'
+import { ON_DROP_DEFAULT } from './utils/drop-utils'
+
 interface IUseDrop {
   initList: () => void
+  dropAction: (e: DragEvent, el: HTMLElement) => void
 }
 
-function useDrop(): IUseDrop {
-  const store = useStore<any>()
+function useDrop(el: HTMLElement): IUseDrop {
+  const store = useStore()
 
   function initList() {
     store.dispatch('dragModule/' + SET_DRAGLIST)
   }
 
+  function dropAction(e: DragEvent, el: HTMLElement) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { x, y, width, height } = ON_DROP_DEFAULT(e, el)
+    // 此时获取了关于drop的所有数据
+    store.dispatch(OUTPUT_SET_DROP_ACTION, { x, y, width, height })
+  }
+
   return {
-    initList
+    initList,
+    dropAction
   }
 }
 
