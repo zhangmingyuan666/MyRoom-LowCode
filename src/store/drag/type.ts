@@ -1,11 +1,11 @@
 /*
  * @Date: 2022-10-05 22:23:00
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 00:33:27
+ * @LastEditTime: 2022-10-07 14:14:04
  * @FilePath: \MyRoom-LowCode\src\store\drag\type.ts
  */
 
-import { IPosition } from '@/types/drag-types'
+import { DragTags, IPosition } from '@/types/drag-types'
 
 export interface IDragList {
   name: string
@@ -16,7 +16,7 @@ export interface IDragList {
 }
 
 export interface IDragComponent {
-  tag: 'text'
+  tag: DragTags
   id: string
   content: string
   style: IDragComponentStyle
@@ -39,6 +39,7 @@ export interface IDragState {
   currentStatus: DragStatus
   width: number
   height: number
+  curdragComponent: IDragComponent
   dragList: IDragComponent[]
   dragStartPosition: IPosition
 }

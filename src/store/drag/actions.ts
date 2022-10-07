@@ -1,16 +1,19 @@
 /*
  * @Date: 2022-10-05 17:39:47
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 01:06:08
+ * @LastEditTime: 2022-10-07 17:49:05
  * @FilePath: \MyRoom-LowCode\src\store\drag\actions.ts
  */
-import { IElementSize, IPosition } from '@/types/drag-types'
+import { DragTags, IElementSize, IPosition } from '@/types/drag-types'
 import { Commit } from 'vuex'
 import { IDragComponent } from './type'
 import {
   SET_DROP_ACTION,
   SET_DRAGLIST,
-  SET_DRAG_START_POSITION
+  SET_DRAG_START_POSITION,
+  ADD_DROP_COMPONENT,
+  SET_DRAG_TAG,
+  SET_CURCOMPONENT_ATTRIBUTE
 } from './type-actions'
 
 interface ICtx {
@@ -26,5 +29,20 @@ export default {
   },
   [SET_DROP_ACTION]({ commit }: ICtx, options: IPosition & IElementSize): void {
     commit(SET_DROP_ACTION, options)
+  },
+  [ADD_DROP_COMPONENT]({ commit }: ICtx, dropId: string): void {
+    commit(ADD_DROP_COMPONENT, dropId)
+  },
+  [SET_DRAG_TAG](
+    { commit }: ICtx,
+    { tag, id }: { tag: DragTags; id: string }
+  ): void {
+    commit(SET_DRAG_TAG, { tag, id })
+  },
+  [SET_CURCOMPONENT_ATTRIBUTE](
+    { commit }: ICtx,
+    key: keyof IDragComponent
+  ): void {
+    commit(SET_CURCOMPONENT_ATTRIBUTE, key)
   }
 }

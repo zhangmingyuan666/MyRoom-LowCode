@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-01 00:03:09
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-06 22:12:55
+ * @LastEditTime: 2022-10-07 14:08:48
  * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\left-handler\index.vue
 -->
 <template>
@@ -10,7 +10,7 @@
       v-for="dragSource of dragSourceListConfig"
       :key="dragSource.description"
     >
-      <DragSource>
+      <DragSource :tag="dragSource.tag">
         <div class="drag-source">{{ dragSource.description }}</div>
       </DragSource>
     </template>

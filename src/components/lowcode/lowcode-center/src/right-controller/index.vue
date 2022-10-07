@@ -1,24 +1,49 @@
 <!--
  * @Date: 2022-10-01 18:46:59
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-05 20:15:25
+ * @LastEditTime: 2022-10-07 18:04:35
  * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\right-controller\index.vue
 -->
 <template>
   <div class="right">
-    <div>哈哈哈哈</div>
-    <div>哈哈哈哈</div>
-    <div>哈哈哈哈</div>
-    <div>哈哈哈哈</div>
-    <div>哈哈哈哈</div>
+    <MingForm :formItems="formConfig.formItems" :formValue="formValue">
+    </MingForm>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import MingForm from '@/base-ui/common/ming-form'
+import { formConfig } from './form-config'
+import { useStore } from '@/store'
+import { ref, computed, watch } from 'vue'
+
+const store = useStore()
+
+const curdragComponent = computed(() => {
+  return store.state.dragModule.curdragComponent
+})
+
+const formValue = ref({
+  content: curdragComponent.value.content,
+  width: curdragComponent.value.style.width,
+  height: curdragComponent.value.style.height,
+  top: curdragComponent.value.style.top,
+  left: curdragComponent.value.style.left
+})
+
+watch(
+  () => {
+    return curdragComponent.value
+  },
+  (newa: any) => {
+    console.log(newa)
+    console.log('我变了')
+  }
+)
+</script>
 
 <style lang="less" scoped>
 .right {
-  width: 250px;
-  background: blue;
+  min-width: 250px;
 }
 </style>

@@ -1,17 +1,18 @@
 <!--
  * @Date: 2022-10-06 01:05:29
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 01:20:08
+ * @LastEditTime: 2022-10-07 16:27:30
  * @FilePath: \MyRoom-LowCode\src\base-ui\drop-target\src\drag-component-renderer\drag-component-renderer.vue
  * @description: none
 -->
 <template>
   <template v-for="dragComponent of dragList" :key="dragComponent.id">
     <SizeController :dragInfoStyle="dragComponent.style">
-      <DragSource>
+      <DragSource :tag="dragComponent.tag" :id="dragComponent.id">
         <component
           :is="getDynamicComponent(dragComponent.tag)"
           :dragInfo="dragComponent"
+          :id="dragComponent.id"
         ></component>
       </DragSource>
       <!-- 递归组件实现组件的嵌套 -->
@@ -26,19 +27,25 @@
 <script lang="ts" setup>
 import SizeController from '../size-controller/index.vue'
 import DragSource from '@/base-ui/drag-source'
-import { VText } from '@/base-ui/drag-element'
+import { VText, VImage } from '@/base-ui/drag-element'
 import { PropType, defineProps } from 'vue'
 import { IDragComponent } from '@/store/drag/type'
+import { DragTags } from '@/types/drag-types'
 
 const props = defineProps({
-  dragList: [] as PropType<IDragComponent[]>
+  dragList: {
+    type: Array as PropType<IDragComponent[]>
+  }
 })
 
-function getDynamicComponent(tag: 'text') {
+function getDynamicComponent(tag: DragTags) {
   let tmp: any = null
   switch (tag) {
-    case 'text':
+    case DragTags.TEXT:
       tmp = VText
+      break
+    case DragTags.IMAGE:
+      tmp = VImage
       break
     default:
       break
