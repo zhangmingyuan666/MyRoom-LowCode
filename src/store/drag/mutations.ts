@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 17:39:40
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 14:00:23
+ * @LastEditTime: 2022-10-08 14:14:35
  * @FilePath: \MyRoom-LowCode\src\store\drag\mutations.ts
  */
 import { DragTags, IElementSize, IPosition } from '@/types/drag-types'
@@ -16,11 +16,6 @@ import {
   SET_DRAG_TAG,
   SET_DROP_ACTION
 } from './type-actions'
-import {
-  findDragComponent,
-  initDragComponent,
-  setInitialDragComponent
-} from './mutation-utils'
 
 export default {
   [SET_DRAGLIST](state: IDragState, list: IDragComponent[]): void {
@@ -64,16 +59,17 @@ export default {
       x - state.dragStartPosition.x,
       y - state.dragStartPosition.y
     ]
+    console.log('left', left)
+    console.log('top', top)
     state.curdragComponent.style.left = left
     state.curdragComponent.style.top = top
 
     if (!dragId && !dropId) {
       console.log('从源拖拽到画布')
-      setInitialDragComponent(tag, state.curdragComponent)
+      configNewNode(tag, state.curdragComponent)
       const newNode = deepCopy(state.curdragComponent)
       state.dragList.push(newNode)
-      state.curdragComponent = initDragComponent(state.curdragComponent)
-      console.log(state.curdragComponent)
+      state.curdragComponent = init(state.curdragComponent)
       return
     }
 
@@ -81,16 +77,16 @@ export default {
       console.log('从源拖拽到组件')
       state.curdragComponent.style.left = left + preLeft
       state.curdragComponent.style.top = top + preTop
-      setInitialDragComponent(tag, state.curdragComponent)
+      configNewNode(tag, state.curdragComponent)
       const newNode = deepCopy(state.curdragComponent)
       traverseInsertToChildren(state.dragList, dropId, newNode)
-      state.curdragComponent = initDragComponent(BASE_DRAG_COMPONENT)
+      state.curdragComponent = init(state.curdragComponent)
       return
     }
 
     if (dragId && !dropId) {
       console.log('从组件拖拽到画布', dragId, dropId)
-      const targetDragElement = findDragComponent(state.dragList, dragId)
+      const targetDragElement = findDragNode(state.dragList, dragId)
       console.log('我找到了', targetDragElement)
       const newNode = deepCopy(targetDragElement)
       newNode.id = String(+new Date())
@@ -98,40 +94,43 @@ export default {
       newNode.style.top = top
       state.dragList = traverseDelete(state.dragList, dragId)
       state.dragList.push(newNode)
-      state.curdragComponent = initDragComponent(BASE_DRAG_COMPONENT)
+      state.curdragComponent = init(state.curdragComponent)
       return
     }
 
-    // 当组件自己呗
     if (dragId && dropId && dragId === dropId) {
       console.log('组件拖动自己')
-      const targetDragElement = findDragComponent(state.dragList, dragId)
+      const targetDragElement = findDragNode(state.dragList, dragId)
+      console.log(targetDragElement?.style.left, targetDragElement?.style.top)
       if (targetDragElement) {
         targetDragElement.style.left += left
         targetDragElement.style.top += top
       }
-      state.curdragComponent = initDragComponent(BASE_DRAG_COMPONENT)
+      state.curdragComponent = init(state.curdragComponent)
       return
     }
 
     if (dragId && dropId && dragId !== dropId) {
       console.log('组件拖动到另一个组件')
-      const targetDragElement = findDragComponent(state.dragList, dragId)
+      const targetDragElement = findDragNode(state.dragList, dragId)
       if (targetDragElement) {
-        const isSon = findDragComponent(targetDragElement!.children, dropId)
+        const isSon = findDragNode(targetDragElement!.children, dropId)
+
         if (isSon) {
           // 父亲不能拽到儿子上
           console.log('寄')
           return
         }
       }
+
+      console.log('我找到了', targetDragElement)
       const newNode = deepCopy(targetDragElement)
       newNode.id = String(+new Date())
       newNode.style.left = left
       newNode.style.top = top
       state.dragList = traverseDelete(state.dragList, dragId)
       traverseInsertToChildren(state.dragList, dropId, newNode)
-      state.curdragComponent = initDragComponent(BASE_DRAG_COMPONENT)
+      state.curdragComponent = init(state.curdragComponent)
       return
     }
 
@@ -251,4 +250,54 @@ function traverseInsertToChildren(
       dragComponent.children?.push(newComponent)
     }
   })
+}
+
+/**
+ * @description: 真正的插入方式，此处给插入节点一些属性以及id
+ * @param {DragTags} tag
+ * @param {IDragComponent} component
+ * @return {*}
+ */
+function configNewNode(tag: DragTags, component: IDragComponent): void {
+  component.id = String(+new Date())
+  // 此时生成配置项
+  switch (tag) {
+    case DragTags.TEXT:
+      component.content = '哈哈哈哈'
+      break
+    case DragTags.IMAGE:
+      component.content =
+        'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d11fd472d1a24430b8a221c8c8155f37~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?'
+      break
+    case DragTags.VIDEO:
+      component.content = ''
+      break
+    default:
+      break
+  }
+}
+
+function findDragNode(
+  dragList: IDragComponent[],
+  dragId: string
+): IDragComponent | null {
+  let node: any = null
+  dragList.forEach((dragComponent: IDragComponent) => {
+    if (node !== null) return
+    if (dragComponent.children) {
+      node = findDragNode(dragComponent.children, dragId)
+    }
+
+    if (dragComponent.id === dragId) {
+      console.log('找到了')
+      console.log(dragComponent)
+      node = dragComponent
+    }
+  })
+  console.log(node)
+  return node
+}
+
+function init(component: IDragComponent) {
+  return deepCopy(BASE_DRAG_COMPONENT)
 }
