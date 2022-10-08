@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 17:39:47
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 17:49:05
+ * @LastEditTime: 2022-10-08 00:32:17
  * @FilePath: \MyRoom-LowCode\src\store\drag\actions.ts
  */
 import { DragTags, IElementSize, IPosition } from '@/types/drag-types'
@@ -27,8 +27,11 @@ export default {
   [SET_DRAG_START_POSITION]({ commit }: ICtx, position: IPosition): void {
     commit(SET_DRAG_START_POSITION, position)
   },
-  [SET_DROP_ACTION]({ commit }: ICtx, options: IPosition & IElementSize): void {
-    commit(SET_DROP_ACTION, options)
+  [SET_DROP_ACTION](
+    { commit }: ICtx,
+    { options, dropId }: { options: IPosition & IElementSize; dropId: string }
+  ): void {
+    commit(SET_DROP_ACTION, { options, dropId })
   },
   [ADD_DROP_COMPONENT]({ commit }: ICtx, dropId: string): void {
     commit(ADD_DROP_COMPONENT, dropId)
@@ -41,8 +44,8 @@ export default {
   },
   [SET_CURCOMPONENT_ATTRIBUTE](
     { commit }: ICtx,
-    key: keyof IDragComponent
+    updateConfig: Partial<IDragComponent>
   ): void {
-    commit(SET_CURCOMPONENT_ATTRIBUTE, key)
+    commit(SET_CURCOMPONENT_ATTRIBUTE, updateConfig)
   }
 }

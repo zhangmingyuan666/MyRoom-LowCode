@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 22:23:00
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 14:14:04
+ * @LastEditTime: 2022-10-08 13:10:03
  * @FilePath: \MyRoom-LowCode\src\store\drag\type.ts
  */
 
@@ -20,7 +20,8 @@ export interface IDragComponent {
   id: string
   content: string
   style: IDragComponentStyle
-  children?: IDragComponent[]
+  dragComponentStatus: DragComponentStatus
+  children: IDragComponent[]
 }
 
 export interface IDragComponentStyle {
@@ -33,6 +34,12 @@ export interface IDragComponentStyle {
 export enum DragStatus {
   Dragging = 'pending',
   Done = 'done'
+}
+
+// 代表当前组件是在外面还是已经进入了组件
+export enum DragComponentStatus {
+  OUT = 'out',
+  IN = 'in'
 }
 
 export interface IDragState {

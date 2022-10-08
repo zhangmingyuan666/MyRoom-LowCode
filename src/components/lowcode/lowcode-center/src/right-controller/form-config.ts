@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-07 17:07:20
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 17:09:37
+ * @LastEditTime: 2022-10-07 21:11:55
  * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\right-controller\form-config.ts
  * @description: none
  */
@@ -9,6 +9,11 @@ import { IFormItems } from '@/base-ui/common/ming-form/types/types'
 
 export const formConfig: IFormItems = {
   formItems: [
+    {
+      label: '内容:',
+      field: 'content',
+      type: 'input'
+    },
     {
       label: '宽度:',
       field: 'width',

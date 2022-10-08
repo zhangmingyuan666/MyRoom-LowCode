@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-06 21:38:39
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 00:29:09
+ * @LastEditTime: 2022-10-07 21:45:33
  * @FilePath: \MyRoom-LowCode\src\hooks\ming-drag-hooks\src\utils\drag-utils.ts
  * @description: none
  */
@@ -31,7 +31,7 @@ export const ON_DRAG_DEFAULT = (e: DragEvent, el: HTMLElement): IPosition => {
  */
 export const getClickPosition = (e: DragEvent, el: HTMLElement): IPosition => {
   const { offsetX: x, offsetY: y } = e
-  console.log('当前点击事件，相对于父亲的偏移距离', x, y)
+  // console.log('当前点击事件，相对于父亲的偏移距离', x, y)
   const { offsetTop, offsetLeft } = el
   return {
     x,

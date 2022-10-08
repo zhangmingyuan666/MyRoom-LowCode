@@ -1,11 +1,12 @@
 <!--
  * @Date: 2022-10-01 18:46:59
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 18:04:35
+ * @LastEditTime: 2022-10-07 22:22:06
  * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\right-controller\index.vue
 -->
 <template>
   <div class="right">
+    <!-- 当当前选择组件切换的时候，将组件重载 -->
     <MingForm :formItems="formConfig.formItems" :formValue="formValue">
     </MingForm>
   </div>
@@ -36,8 +37,8 @@ watch(
     return curdragComponent.value
   },
   (newa: any) => {
-    console.log(newa)
-    console.log('我变了')
+    // console.log(newa)
+    // console.log('我变了')
   }
 )
 </script>

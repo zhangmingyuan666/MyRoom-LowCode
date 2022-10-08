@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-06 01:05:29
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 16:27:30
+ * @LastEditTime: 2022-10-08 01:43:09
  * @FilePath: \MyRoom-LowCode\src\base-ui\drop-target\src\drag-component-renderer\drag-component-renderer.vue
  * @description: none
 -->
@@ -17,7 +17,7 @@
       </DragSource>
       <!-- 递归组件实现组件的嵌套 -->
       <DragComponentRenderer
-        v-if="dragComponent.children"
+        v-if="dragComponent.children?.length"
         :dragList="dragComponent.children"
       ></DragComponentRenderer>
     </SizeController>
