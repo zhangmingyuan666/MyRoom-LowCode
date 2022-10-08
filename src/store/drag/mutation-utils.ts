@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-08 13:29:53
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 13:55:27
+ * @LastEditTime: 2022-10-08 23:10:51
  * @FilePath: \MyRoom-LowCode\src\store\drag\mutation-utils.ts
  * @description: none
  */
@@ -49,13 +49,8 @@ export function findDragComponent(
       node = findDragComponent(dragComponent.children, dragId)
     }
 
-    if (dragComponent.id === dragId) {
-      console.log('找到了')
-      console.log(dragComponent)
-      node = dragComponent
-    }
+    if (dragComponent.id === dragId) node = dragComponent
   })
-  console.log(node)
   return node
 }
 
@@ -82,7 +77,6 @@ export function traverseDelete(
 }
 
 export function createNewDragComponentWithDeleteOld(
-  list: IDragComponent[],
   oldComponent: IDragComponent,
   options: { left: number; top: number }
 ): IDragComponent {
@@ -91,6 +85,109 @@ export function createNewDragComponentWithDeleteOld(
   newDragElement.id = String(+new Date())
   newDragElement.style.left = left
   newDragElement.style.top = top
-  list = traverseDelete(list, oldComponent.id)
   return newDragElement
+}
+
+export function findDragNode(
+  dragList: IDragComponent[],
+  dragId: string
+): IDragComponent | null {
+  let node: any = null
+  dragList.forEach((dragComponent: IDragComponent) => {
+    if (node !== null) return
+    if (dragComponent.children) {
+      node = findDragNode(dragComponent.children, dragId)
+    }
+
+    if (dragComponent.id === dragId) {
+      node = dragComponent
+    }
+  })
+
+  return node
+}
+
+export function verifyIsCompFatherToCompChild(
+  fatherComponent: IDragComponent,
+  dropId: string
+): IDragComponent | null {
+  return findDragNode(fatherComponent.children, dropId)
+}
+
+/**
+ * @description: dfs进行遍历，首先要对爹进行插入
+ * @param {IDragComponent[]} list 传入的dragList
+ * @param {string} dropId 容器的id
+ * @param {IDragComponent} newComponent 需要放入的新组件
+ * @return {*}
+ */
+export function traverseInsertToChildren(
+  list: IDragComponent[],
+  dropId: string,
+  newComponent: IDragComponent
+): void {
+  list.forEach((dragComponent: IDragComponent) => {
+    if (dragComponent.children) {
+      traverseInsertToChildren(dragComponent.children, dropId, newComponent)
+    }
+
+    // 如果当前找到的id和dropId，一样，说明找到了父亲容器，需要插入到这个父亲的儿子里
+    if (dragComponent.id === dropId) {
+      dragComponent.children?.push(newComponent)
+    }
+  })
+}
+
+/**
+ * @description: 真正的插入方式，此处给插入节点一些属性以及id
+ * @param {DragTags} tag
+ * @param {IDragComponent} component
+ * @return {*}
+ */
+export function configNewNode(tag: DragTags, component: IDragComponent): void {
+  component.tag = tag
+  component.id = String(+new Date())
+  // 此时生成配置项
+  switch (tag) {
+    case DragTags.TEXT:
+      component.content = '哈哈哈哈'
+      break
+    case DragTags.IMAGE:
+      component.content =
+        'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d11fd472d1a24430b8a221c8c8155f37~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?'
+      break
+    case DragTags.VIDEO:
+      component.content = ''
+      break
+    default:
+      break
+  }
+}
+
+export function init(component: IDragComponent): IDragComponent {
+  return deepCopy(component)
+}
+
+export function replaceOldComponent(
+  list: IDragComponent[],
+  dragId: string,
+  newComp: IDragComponent
+): IDragComponent[] {
+  console.log(list)
+  return list.map((component: IDragComponent) => {
+    if (component.children) {
+      component.children = replaceOldComponent(
+        component.children,
+        dragId,
+        newComp
+      )
+    }
+    if (component.id === dragId) {
+      console.log('其实找到了新节点')
+      console.log(newComp)
+      return newComp
+    }
+
+    return component
+  })
 }

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 17:39:47
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 00:32:17
+ * @LastEditTime: 2022-10-08 15:50:04
  * @FilePath: \MyRoom-LowCode\src\store\drag\actions.ts
  */
 import { DragTags, IElementSize, IPosition } from '@/types/drag-types'
@@ -11,9 +11,9 @@ import {
   SET_DROP_ACTION,
   SET_DRAGLIST,
   SET_DRAG_START_POSITION,
-  ADD_DROP_COMPONENT,
   SET_DRAG_TAG,
-  SET_CURCOMPONENT_ATTRIBUTE
+  SET_CURCOMPONENT_ATTRIBUTE,
+  SET_DRAG_COMPONENT
 } from './type-actions'
 
 interface ICtx {
@@ -27,20 +27,20 @@ export default {
   [SET_DRAG_START_POSITION]({ commit }: ICtx, position: IPosition): void {
     commit(SET_DRAG_START_POSITION, position)
   },
+  [SET_DRAG_TAG](
+    { commit }: ICtx,
+    { tag, id }: { tag: DragTags; id: string }
+  ): void {
+    commit(SET_DRAG_TAG, { tag, id })
+  },
   [SET_DROP_ACTION](
     { commit }: ICtx,
     { options, dropId }: { options: IPosition & IElementSize; dropId: string }
   ): void {
     commit(SET_DROP_ACTION, { options, dropId })
   },
-  [ADD_DROP_COMPONENT]({ commit }: ICtx, dropId: string): void {
-    commit(ADD_DROP_COMPONENT, dropId)
-  },
-  [SET_DRAG_TAG](
-    { commit }: ICtx,
-    { tag, id }: { tag: DragTags; id: string }
-  ): void {
-    commit(SET_DRAG_TAG, { tag, id })
+  [SET_DRAG_COMPONENT]({ commit }: ICtx, dragId: string): void {
+    commit(SET_DRAG_COMPONENT, dragId)
   },
   [SET_CURCOMPONENT_ATTRIBUTE](
     { commit }: ICtx,

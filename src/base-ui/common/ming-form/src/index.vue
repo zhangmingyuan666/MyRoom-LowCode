@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-07 16:34:00
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 23:38:14
+ * @LastEditTime: 2022-10-08 22:53:59
  * @FilePath: \MyRoom-LowCode\src\base-ui\common\ming-form\src\index.vue
  * @description: none
 -->
@@ -12,7 +12,10 @@
         <ui-form-field>
           <label>{{ formItem.label }}</label>
           <template v-if="formItem.type === 'input'">
-            <ui-textfield v-model="(formValue as any)[`${formItem.field}`]" />
+            <ui-textfield
+              v-model="(formValue as any)[`${formItem.field}`]"
+              class="w-full"
+            />
           </template>
         </ui-form-field>
       </template>
@@ -27,7 +30,7 @@
 <script setup lang="ts">
 import { useStore } from '@/store'
 import { OUTPUT_SET_CURCOMPONENT_ATTRIBUTE } from '@/store/drag/type-actions'
-import { PropType, defineProps, ref, computed, watch } from 'vue'
+import { PropType, defineProps, ref, computed, watch, nextTick } from 'vue'
 import { IFormItem } from '../types/types'
 const store = useStore()
 
@@ -67,7 +70,6 @@ const formValue = ref(createSource())
 function reset() {
   formValue.value = createSource()
 }
-
 function submit() {
   const { left, top, width, height, content } = formValue.value
 
@@ -84,9 +86,22 @@ function submit() {
 }
 
 watch(
-  () => getValue.value.id,
   () => {
+    return store.state.dragModule.currentStatus
+  },
+  (newId) => {
     reset()
+    console.log(newId)
+  }
+)
+
+watch(
+  () => {
+    return store.state.dragModule.curdragComponent.id
+  },
+  (newId) => {
+    reset()
+    console.log(newId)
   }
 )
 </script>

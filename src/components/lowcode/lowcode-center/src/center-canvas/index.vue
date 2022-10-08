@@ -1,12 +1,12 @@
 <!--
  * @Date: 2022-10-01 00:04:06
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-06 01:37:12
+ * @LastEditTime: 2022-10-08 14:25:16
  * @FilePath: \MyRoom-LowCode\src\components\lowcode\lowcode-center\src\center-canvas\index.vue
 -->
 <template>
-  <div class="center">
-    <DropTarget>
+  <div class="center mx-4">
+    <DropTarget class="box-content">
       <DragComponentRenderer :dragList="dragList"></DragComponentRenderer>
     </DropTarget>
   </div>
@@ -31,11 +31,4 @@ watch(dragList, () => {
 })
 </script>
 
-<style lang="less" scoped>
-.center {
-  flex: 1;
-  margin: 0 10px;
-  display: flex;
-  justify-content: center;
-}
-</style>
+<style lang="less" scoped></style>

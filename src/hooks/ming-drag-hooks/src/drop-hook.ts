@@ -1,15 +1,11 @@
 /*
  * @Date: 2022-10-05 18:32:57
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 01:38:58
+ * @LastEditTime: 2022-10-08 15:55:42
  * @FilePath: \MyRoom-LowCode\src\hooks\ming-drag-hooks\src\drop-hook.ts
  * @description: none
  */
-import {
-  OUTPUT_ADD_DROP_COMPONENT,
-  OUTPUT_SET_DROP_ACTION,
-  SET_DRAGLIST
-} from '@/store/drag/type-actions'
+import { OUTPUT_SET_DROP_ACTION, SET_DRAGLIST } from '@/store/drag/type-actions'
 import { useStore } from '@/store'
 import { ON_DROP_DEFAULT } from './utils/drop-utils'
 
@@ -29,7 +25,6 @@ function useDrop(el: HTMLElement): IUseDrop {
   function dropAction(e: DragEvent, el: HTMLElement) {
     // 此处是获取当前放置元素的id，如果当前元素有id的话，说明他是嵌套的组件
     const dropId: any = (e.target as HTMLElement).id
-    console.log(e.target)
     e.stopPropagation()
     e.preventDefault()
     const { x, y, width, height } = ON_DROP_DEFAULT(e, el)
@@ -38,8 +33,6 @@ function useDrop(el: HTMLElement): IUseDrop {
       options: { x, y, width, height },
       dropId
     })
-    console.log('drop-id-2', dropId)
-    store.dispatch(OUTPUT_ADD_DROP_COMPONENT, dropId)
   }
 
   return {
