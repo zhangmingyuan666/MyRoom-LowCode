@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-08 13:29:53
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 23:10:51
+ * @LastEditTime: 2022-10-09 14:35:39
  * @FilePath: \MyRoom-LowCode\src\store\drag\mutation-utils.ts
  * @description: none
  */
@@ -144,7 +144,10 @@ export function traverseInsertToChildren(
  * @param {IDragComponent} component
  * @return {*}
  */
-export function configNewNode(tag: DragTags, component: IDragComponent): void {
+export function configDefaultNewNode(
+  tag: DragTags,
+  component: IDragComponent
+): void {
   component.tag = tag
   component.id = String(+new Date())
   // 此时生成配置项
@@ -173,7 +176,6 @@ export function replaceOldComponent(
   dragId: string,
   newComp: IDragComponent
 ): IDragComponent[] {
-  console.log(list)
   return list.map((component: IDragComponent) => {
     if (component.children) {
       component.children = replaceOldComponent(
@@ -182,11 +184,7 @@ export function replaceOldComponent(
         newComp
       )
     }
-    if (component.id === dragId) {
-      console.log('其实找到了新节点')
-      console.log(newComp)
-      return newComp
-    }
+    if (component.id === dragId) return newComp
 
     return component
   })

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 17:39:40
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-08 23:07:54
+ * @LastEditTime: 2022-10-09 15:30:50
  * @FilePath: \MyRoom-LowCode\src\store\drag\mutations.ts
  */
 import { DragTags, IElementSize, IPosition } from '@/types/drag-types'
@@ -22,7 +22,7 @@ import {
   SET_DROP_ACTION
 } from './type-actions'
 import {
-  configNewNode,
+  configDefaultNewNode,
   createNewDragComponentWithDeleteOld,
   findDragNode,
   init,
@@ -65,33 +65,27 @@ export default {
       x - state.dragStartPosition.x,
       y - state.dragStartPosition.y
     ]
-    console.log(tag)
-    // 如果当前是一个全新组件，给他创建一个新的id以及各种属性
+
+    // 如果是一个全新的组件
     if (!dragId) {
+      // 进行配置的初始化
       state.curdragComponent = init(BASE_DRAG_COMPONENT)
-      configNewNode(tag, state.curdragComponent)
+      // 进行默认属性的配置
+      configDefaultNewNode(tag, state.curdragComponent)
     }
 
     state.curdragComponent.style.left = left
     state.curdragComponent.style.top = top
     // 从源拖拽到画布
     if (!dragId && !dropId) {
-      //configNewNode(tag, state.curdragComponent)
       const newNode = deepCopy(state.curdragComponent)
       state.dragList.push(newNode)
-      // state.curdragComponent = init(BASE_DRAG_COMPONENT)
       state.curdragComponent = deepCopy(newNode)
     }
     //从源拖拽到组件
     if (!dragId && dropId) {
-      console.log(preLeft, preTop)
-      console.log(left, top)
-      // state.curdragComponent.style.left = left + preLeft
-      // state.curdragComponent.style.top = top + preTop
-      //configNewNode(tag, state.curdragComponent)
       const newNode = deepCopy(state.curdragComponent)
       traverseInsertToChildren(state.dragList, dropId, newNode)
-      //state.curdragComponent = init(BASE_DRAG_COMPONENT)
       state.curdragComponent = deepCopy(newNode)
     }
     //从组件拖拽到画布
@@ -103,7 +97,6 @@ export default {
       })
       state.dragList = traverseDelete(state.dragList, dragId)
       state.dragList.push(newNode)
-      //state.curdragComponent = init(BASE_DRAG_COMPONENT)
       state.curdragComponent = deepCopy(newNode)
     }
     // 组件拖动自己
@@ -113,16 +106,12 @@ export default {
         targetDragElement.style.left += left
         targetDragElement.style.top += top
       }
-      //state.curdragComponent = init(BASE_DRAG_COMPONENT)
-      //state.curdragComponent = newNode
       state.curdragComponent = deepCopy(targetDragElement)
     }
 
     // 组件拖动到另一个组件
     if (dragId && dropId && dragId !== dropId) {
-      console.log('组件拖动到另一个组件')
       const targetDragElement = findDragNode(state.dragList, dragId)
-
       // 如果放置组件是放入组件的儿子，放置失败
       if (verifyIsCompFatherToCompChild(targetDragElement!, dropId)) {
         return
@@ -133,10 +122,9 @@ export default {
       })
       state.dragList = traverseDelete(state.dragList, dragId)
       traverseInsertToChildren(state.dragList, dropId, newNode)
-      //state.curdragComponent = init(BASE_DRAG_COMPONENT)
       state.curdragComponent = deepCopy(newNode)
     }
-
+    // 更改登陆状态
     state.currentStatus = DragStatus.Done
   },
   [SET_DRAG_COMPONENT](state: IDragState, dragId: string): void {
@@ -151,15 +139,19 @@ export default {
       ...state.curdragComponent,
       ...updateConfig
     }
+    // 暂时维护中
     const dragId = state.curdragComponent.id
     console.log(dragId, '0--------------')
     console.log(state.curdragComponent)
-    state.dragList = replaceOldComponent(
-      state.dragList,
-      dragId,
-      state.curdragComponent
-    )
-    console.log(state.dragList)
+    const preNode = findDragNode(state.dragList, dragId)!
+    preNode.content = state.curdragComponent.content
+    preNode.style = state.curdragComponent.style
+    // state.dragList = replaceOldComponent(
+    //   state.dragList,
+    //   dragId,
+    //   state.curdragComponent
+    // )
+    // console.log(state.dragList)
     state.curdragComponent = init(state.curdragComponent)
   }
 }

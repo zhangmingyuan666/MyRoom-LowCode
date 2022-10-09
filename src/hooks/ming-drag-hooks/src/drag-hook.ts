@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-05 18:32:41
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 15:34:54
+ * @LastEditTime: 2022-10-09 21:51:28
  * @FilePath: \MyRoom-LowCode\src\hooks\ming-drag-hooks\src\drag-hook.ts
  */
 // 用于注册dragHooks
@@ -17,6 +17,7 @@ import {
 export interface IUseDrag {
   dragStartAction: (e: DragEvent, el: HTMLElement, tag: DragTags) => void
   createDragAttribute: () => void
+  dragAction: (e: DragEvent) => void
 }
 
 export interface IDragActions {
@@ -38,6 +39,11 @@ export default (dragSourceRef: HTMLElement): IUseDrag => {
     store.dispatch(OUTPUT_SET_DRAG_TAG, { tag, id: el.id })
   }
 
+  function dragAction(e: DragEvent) {
+    console.log(e)
+    console.log(e.clientX)
+  }
+
   // 给我们的HTML一些必要的属性添加
   function createDragAttribute() {
     dragSourceRef.draggable = true
@@ -45,6 +51,7 @@ export default (dragSourceRef: HTMLElement): IUseDrag => {
 
   return {
     dragStartAction,
-    createDragAttribute
+    createDragAttribute,
+    dragAction
   }
 }

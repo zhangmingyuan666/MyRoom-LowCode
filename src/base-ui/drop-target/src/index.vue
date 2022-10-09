@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-05 20:28:52
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-07 01:03:42
+ * @LastEditTime: 2022-10-09 22:14:22
  * @FilePath: \MyRoom-LowCode\src\base-ui\drop-target\src\index.vue
 -->
 <template>
@@ -10,7 +10,7 @@
     class="drop-area"
     ref="dropTarget"
     @dragover.prevent
-    @drop="dropActions.dropAction($event, dropTarget)"
+    @drop.stop="dropActions.dropAction($event, dropTarget)"
   >
     <slot></slot>
   </div>
@@ -21,8 +21,10 @@ import { useStore } from '@/store'
 import { useDrop } from '@/hooks/ming-drag-hooks'
 import { computed, ref, onMounted, reactive } from 'vue'
 import { OUTPUT_SET_DRAGLIST } from '@/store/drag/type-actions'
+import useMouse from '@/hooks/mouse-hooks'
 const store = useStore()
 
+const { mouseMove } = useMouse()
 const dropTarget = ref<null | HTMLElement>(null)
 
 const setStyle = computed(() => {
@@ -34,9 +36,8 @@ const dropActions = reactive({
 })
 
 onMounted(() => {
-  const { initList, dropAction } = useDrop(dropTarget.value as HTMLElement)
+  const { dropAction } = useDrop(dropTarget.value as HTMLElement)
   dropActions.dropAction = dropAction
-  initList()
 })
 </script>
 
