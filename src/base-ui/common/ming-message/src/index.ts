@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-10-02 21:31:49
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-05 20:09:15
+ * @LastEditTime: 2022-10-25 20:05:33
  * @FilePath: \MyRoom-LowCode\src\base-ui\common\ming-message\src\index.ts
  */
 
@@ -34,7 +34,7 @@ const showMessage = (app: App<Element>, duration: number) => {
   vm.setVisible(true)
 
   document.body.appendChild(oFrag)
-  setTop(vm) // 将top进行设置
+  setTop(vm) // 将top进行设置, 此时不需要异步
 
   // 在这里监听一下，array一旦变动了，我们的高度就得重新计算啦，所以得放在setTop后面
   // 闭包实现
@@ -49,7 +49,7 @@ const hideMessage = (app: App<Element>, vm: any, duration: number) => {
     // 在vm上挂载最好，因为每个msg都会创建新的vm
     vm.timer = setTimeout(async () => {
       // 异步处理，等动画结束了，再将节点取消挂载
-      await vm.setVisible(false)
+      await vm.setVisible(false) // 关闭的盛恒需要异步进行和删除
       app.unmount()
       // 然后，我们还需要注意，当完事了，vm需要从数组中删掉
       messageArray.value = messageArray.value.filter((item: any) => item !== vm)

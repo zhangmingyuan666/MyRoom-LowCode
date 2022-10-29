@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-02 21:24:34
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-05 20:02:17
+ * @LastEditTime: 2022-10-25 21:16:58
  * @FilePath: \MyRoom-LowCode\src\base-ui\common\ming-message\src\message.vue
 -->
 <template>
@@ -51,13 +51,15 @@ const { visible, top } = toRefs(state)
 
 const setVisible = (isVisible: boolean) => {
   // setVisible进行异步调用
+
   return new Promise((resolve) => {
     state.visible = isVisible
+    console.log('啊哈哈哈哈哈')
     t = setTimeout(() => {
       clearTimeout(t)
       t = null
       resolve('')
-    }, 300)
+    }, 1000)
   })
 }
 

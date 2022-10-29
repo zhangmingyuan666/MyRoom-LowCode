@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-01 18:44:05
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-05 20:14:55
+ * @LastEditTime: 2022-10-25 20:53:26
  * @FilePath: \MyRoom-LowCode\src\views\main\lowcode\index.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <LowcodeTop></LowcodeTop>
     <LowcodeCenter></LowcodeCenter>
     <LowcodeExtra></LowcodeExtra>
-    <!-- <Ui-button
+    <Ui-button
       @click="
         () => {
           Message.info({
@@ -59,7 +59,7 @@
         }
       "
       >失败(直接调用)</Ui-button
-    > -->
+    >
   </div>
 </template>
 

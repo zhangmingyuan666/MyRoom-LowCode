@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-10-05 23:42:31
  * @LastEditors: zhang-mingyuan123 2369558390@qq.com
- * @LastEditTime: 2022-10-09 15:58:47
+ * @LastEditTime: 2022-10-20 18:29:49
  * @FilePath: \MyRoom-LowCode\src\base-ui\drop-target\src\size-controller\index.vue
  * @description: absract component only to controll size
 -->
